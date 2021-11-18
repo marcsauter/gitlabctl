@@ -1,0 +1,14 @@
+project_name: gitlab-cli
+release:
+    disable: true
+builds:
+    - id: gitlabctl
+      goos:
+        - darwin
+        - linux
+      goarch:
+        - amd64
+      main: ./cmd/gitlabctl/
+      binary: gitlabctl
+      env:
+        - CGO_ENABLED=0
