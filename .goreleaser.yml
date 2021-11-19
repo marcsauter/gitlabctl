@@ -1,6 +1,8 @@
 project_name: gitlab-cli
 release:
-    disable: true
+  github:
+    owner: marcsauter
+    name: gitlabctl
 builds:
     - id: gitlabctl
       goos:
@@ -12,3 +14,21 @@ builds:
       binary: gitlabctl
       env:
         - CGO_ENABLED=0
+dockers:
+    - ids:
+        - gitlabctl
+      goos: linux
+      goarch: amd64
+      dockerfile: packaging/docker/Dockerfile
+      image_templates:
+        - marcsauter/{{ .ProjectName }}-gitlabctl:{{ .Major }}.{{ .Minor }}.{{ .Patch }}
+        - marcsauter/{{ .ProjectName }}-gitlabctl:{{ .Major }}.{{ .Minor }}
+        - marcsauter/{{ .ProjectName }}-gitlabctl:latest
+      build_flag_templates:
+        - --label=org.opencontainers.image.created={{ .Date }}
+        - --label=org.opencontainers.image.revision={{ .ShortCommit }}
+        - --label=org.opencontainers.image.source={{ .GitURL }}
+        - --label=org.opencontainers.image.url={{ .GitURL }}
+        - --label=org.opencontainers.image.vendor=Marc Sauter
+        - --label=org.opencontainers.image.version={{ .Version }}
+        - --pull
